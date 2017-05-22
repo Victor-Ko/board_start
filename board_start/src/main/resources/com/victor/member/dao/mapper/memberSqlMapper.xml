@@ -11,6 +11,7 @@
 		<result column="USER_LAST_NAME" 	jdbcType="VARCHAR" property="userLastName" />
 		<result column="USER_GENDER" 		jdbcType="VARCHAR" property="userGender" />
 		<result column="USER_BIRTH" 		jdbcType="VARCHAR" property="userBirth" />
+		<result column="USER_EMAIL"			jdbcType="VARCHAR" property="userEmail" />
 		<result column="USER_AUTH" 			jdbcType="VARCHAR" property="userAuth" />
 		<result column="USER_REG_DATE" 		jdbcType="VARCHAR" property="userRegDate" />
 	</resultMap>
@@ -41,6 +42,7 @@
 				USER_LAST_NAME,
 				USER_GENDER,
 				USER_BIRTH,
+				USER_EMAIL,
 				USER_AUTH,
 				USER_REG_DATE
 			)
@@ -52,8 +54,9 @@
 				#{userLastName},
 				#{userGender},
 				#{userBirth},
+				#{userEmail},
 				1,
-				SYSDATE
+				DATE(NOW())
 			)
 	</insert>
 	
@@ -75,17 +78,8 @@
 			<if test="userPw != null">
 			   	USER_PW = #{userPw},
 			</if>
-			<if test="userFirstName != null">
-		   		USER_FIRST_NAME = #{userFirstName},
-			</if>
-			<if test="userLastName != null">
-		   		USER_LAST_NAME = #{userLastName},
-			</if>
-			<if test="userGender != null">
-			   	USER_GENDER = #{userGender},
-			</if>
-			<if test="userBirth != null">
-			   	USER_BIRTH = #{userBirth},
+			<if test="userEmail != null">
+				USER_EMAIL = #{userEmail},
 			</if>
 			<if test="userAuth != null">
 			   	USER_AUTH = #{userAuth},
@@ -93,7 +87,7 @@
 		</set>
 
 		<where>
-			C_USER_ID = #{userId}
+			USER_ID = #{userId}
 		</where>
 
 	</update>

@@ -3,6 +3,7 @@ package com.victor.board.common.board.controller;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,11 +29,11 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@RequestMapping(value ="/boardMain")
-	public ModelAndView boardMain(HttpServletRequest request, Locale locale, Model model){
-		MemberDto memberInfo = SessionManager.getUserInfo(request);
+	public ModelAndView boardMain(HttpServletRequest request, Locale locale, Model model, HttpSession session){
+		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		
 		if (memberInfo != null) {
-			request.setAttribute("userInfo", memberInfo);
+			request.setAttribute("memberInfo", memberInfo);
 			
 			ModelAndView result = new ModelAndView();
 			result.setViewName("/boardMain");
@@ -47,8 +48,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/boardInsert")
-	public ModelAndView boardInsert(HttpServletRequest request, Locale locale, Model model){
-		MemberDto memberInfo = SessionManager.getUserInfo(request);
+	public ModelAndView boardInsert(HttpServletRequest request, Locale locale, Model model, HttpSession session){
+		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		
 		if (memberInfo != null) {
 			request.setAttribute("userInfo", memberInfo);
@@ -66,8 +67,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/boardSelect")
-	public ModelAndView boardSelect(HttpServletRequest request, Locale locale, Model model){
-		MemberDto memberInfo = SessionManager.getUserInfo(request);
+	public ModelAndView boardSelect(HttpServletRequest request, Locale locale, Model model, HttpSession session){
+		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		
 		if (memberInfo != null) {
 			request.setAttribute("userInfo", memberInfo);
@@ -85,8 +86,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/insertBoard")
-	public @ResponseBody AJaxResVO insertBoard(HttpServletRequest request) {
-		MemberDto memberInfo = SessionManager.getUserInfo(request);
+	public @ResponseBody AJaxResVO insertBoard(HttpServletRequest request, HttpSession session) {
+		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		AJaxResVO jRes = new AJaxResVO();
 		
 		BoardDto boardDto = new BoardDto();
@@ -130,8 +131,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/selectBoard")
-	public @ResponseBody AJaxResVO selectBoard(HttpServletRequest request) {
-		MemberDto memberInfo = SessionManager.getUserInfo(request);
+	public @ResponseBody AJaxResVO selectBoard(HttpServletRequest request, HttpSession session) {
+		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		AJaxResVO jRes = new AJaxResVO();
 		
 		BoardDto boardDto = new BoardDto();

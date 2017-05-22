@@ -8,6 +8,7 @@ public class MemberDto {
 	private String userLastName;
 	private String userGender;
 	private String userBirth;
+	private String userEmail;
 	private String userAuth;
 	private String userRegDate;
 	
@@ -47,6 +48,12 @@ public class MemberDto {
 	public void setUserBirth(String userBirth) {
 		this.userBirth = userBirth;
 	}
+	public String getUserEmail() {
+		return userEmail;
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 	public String getUserAuth() {
 		return userAuth;
 	}
@@ -63,7 +70,7 @@ public class MemberDto {
 	public String toString() {
 		return "MemberDto [userId=" + userId + ", userPw=" + userPw + ", userFirstName=" + userFirstName
 				+ ", userLastName=" + userLastName + ", userGender=" + userGender + ", userBirth=" + userBirth
-				+ ", userAuth=" + userAuth + ", userRegDate=" + userRegDate + "]";
+				+ ", userEmail=" + userEmail + ", userAuth=" + userAuth + ", userRegDate=" + userRegDate + "]";
 	}
 	
 }

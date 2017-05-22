@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>게시판 메인</title>
 <%@include file="pathSet.jsp" %>
 <script src="${resourcePath}/js/boardMain.js"></script>
 <!-- Bootstrap -->
@@ -22,6 +22,8 @@
     <![endif]-->
 </head>
 <body>
+
+<input type="text" value="이름 : ${memberInfo.getUserFirstName()}">
 
 </body>
 </html>

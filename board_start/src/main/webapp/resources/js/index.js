@@ -53,7 +53,7 @@ function login_check(){
 		alert("아이디를 입력하세요");
 		$("#userId").focus();
 	}else if ($("#userPw").val() == "") {
-		alert($("#loginloginalertnotinputpw").val());
+		alert("비밀번호를 입력하세요");
 		$("#userPw").focus();
 	}else {
 		// 입력 받은 데이터로 DB 조회
@@ -82,8 +82,11 @@ function login_proc(){
 				var mainPath = jRes.resData.mainPath;
 				// 메인 페이지 이동
 				location.href = contextPath+mainPath;
-			}else{
-				alert("로그인 실패");
+			} else if(jRes.success == "N" && jRes.result == "2") {
+				alert("비밀번호를 다시입력하세요");
+				$("#userPw").val("");
+			} else {
+				alert("계정이 존재하지 않습니다");
 				$("#userPw").val("");
 			}
 		}

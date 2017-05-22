@@ -1,5 +1,5 @@
 body {
-	background-image: url("${resourcePath}/images/food.jpg"); 
+	background-image: url("../images/food.jpg"); 
 	background-size: cover;
 }
 .align-center { 

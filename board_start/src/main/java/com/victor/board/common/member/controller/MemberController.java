@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +51,8 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/memberUpdate")
-	public ModelAndView memberUpdate(HttpServletRequest request, Locale locale, Model model){
-		MemberDto memberInfo = SessionManager.getUserInfo(request);
+	public ModelAndView memberUpdate(HttpServletRequest request, Locale locale, Model model, HttpSession session){
+		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		
 		if (memberInfo != null) {
 			request.setAttribute("userInfo", memberInfo);
@@ -69,9 +70,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/logout")
-	public ModelAndView apLogout(HttpServletRequest request, Locale locale){
+	public ModelAndView logout(HttpServletRequest request, Locale locale, HttpSession session){
 
-		SessionManager.sessionClear(request);
+		session.invalidate();
 		RedirectView rv = new RedirectView(request.getContextPath()+"/");
 
 		rv.setExposeModelAttributes(false);
@@ -82,8 +83,8 @@ public class MemberController {
 	
 	/* 세션 유지 */
 	@RequestMapping(value = "/sessionExtension.do")
-	public @ResponseBody  AJaxResVO sessionExtension(HttpServletRequest request, Locale locale){
-		MemberDto memberInfo = SessionManager.getUserInfo(request);
+	public @ResponseBody AJaxResVO sessionExtension(HttpServletRequest request, Locale locale, HttpSession session){
+		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		AJaxResVO jRes = new AJaxResVO();
 
 		// 세션에 담긴 내용이 없으면
@@ -94,6 +95,7 @@ public class MemberController {
 			memberInfo.setUserLastName(memberInfo.getUserLastName());
 			memberInfo.setUserGender(memberInfo.getUserGender());
 			memberInfo.setUserBirth(memberInfo.getUserBirth());
+			memberInfo.setUserEmail(memberInfo.getUserEmail());
 			memberInfo.setUserAuth(memberInfo.getUserAuth());
 
 			SessionManager.setAttribute(request, "SES_KEY_USER_INFO", memberInfo);
@@ -103,7 +105,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/login/loginChk.do")
-	public @ResponseBody AJaxResVO loginChk(HttpServletRequest request, HttpServletResponse response, Locale locale) throws ServletException, IOException, ParseException {
+	public @ResponseBody AJaxResVO loginChk(HttpServletRequest request, HttpServletResponse response, Locale locale, HttpSession session) throws ServletException, IOException, ParseException {
 		AJaxResVO jRes = new AJaxResVO();
 		
 		try {
@@ -117,7 +119,7 @@ public class MemberController {
 			memberDto.setUserId(userId);
 			memberDto.setUserPw(userPw);
 			
-			if(rememberId != null && rememberId.equals("checked")){
+			if(rememberId != null && rememberId.equals("on")){
 				Cookie cookie;
 				
 				cookie = new Cookie("userId", userId.toString());
@@ -154,9 +156,11 @@ public class MemberController {
 				memberInfo.setUserLastName(memberInfo.getUserLastName());
 				memberInfo.setUserGender(memberInfo.getUserGender());
 				memberInfo.setUserBirth(memberInfo.getUserBirth());
+				memberInfo.setUserEmail(memberInfo.getUserEmail());
 				memberInfo.setUserAuth(memberInfo.getUserAuth());
-				
-				SessionManager.setAttribute(request, "SES_KEY_USER_INFO", memberInfo);
+
+				//SessionManager.setAttribute(request, "SES_KEY_USER_INFO", memberInfo);
+				session.setAttribute("memberInfo", memberInfo);
 				
 				jRes.setResult("1");
 				jRes.addAttribute("mainPath", "/boardMain");
@@ -173,51 +177,51 @@ public class MemberController {
 	
 	@RequestMapping(value = "/insertMember")
 	public @ResponseBody AJaxResVO insertMember(HttpServletRequest request) {
-		MemberDto memberInfo = SessionManager.getUserInfo(request);
 		AJaxResVO jRes = new AJaxResVO();
 		
 		MemberDto newMemberInfo = new MemberDto();
 		
 		try {
-			if(memberInfo != null){
-				if(request.getParameter("userId") != null && !request.getParameter("userId").isEmpty()){
-					newMemberInfo.setUserId(request.getParameter("userId"));
-				}
-				if(request.getParameter("userPw") != null && !request.getParameter("userPw").isEmpty()){
-					newMemberInfo.setUserPw(request.getParameter("userPw"));
-				}
-				if(request.getParameter("userFirstName") != null && !request.getParameter("userFirstName").isEmpty()){
-					newMemberInfo.setUserFirstName(request.getParameter("userFirstName"));
-				}
-				if(request.getParameter("userLastName") != null && !request.getParameter("userLastName").isEmpty()){
-					newMemberInfo.setUserLastName(request.getParameter("userLastName"));
-				}
-				if(request.getParameter("userGender") != null && !request.getParameter("userGender").isEmpty()){
-					newMemberInfo.setUserGender(request.getParameter("userGender"));
-				}
-				if(request.getParameter("userBirth") != null && !request.getParameter("userBirth").isEmpty()){
-					newMemberInfo.setUserBirth(request.getParameter("userBirth"));
-				}
-				
-				Integer check = memberService.checkUserInfo(newMemberInfo);
-				if(check > 0){
-					jRes.setResult("MemberDuplicate");
-					jRes.setSuccess(AJaxResVO.SUCCESS_N);
-				}else{
-					Integer iRes = memberService.insertUserInfo(newMemberInfo);
-					
-					if(iRes>0){
-						jRes.setResult(request.getParameter("cReceptNum"));
-						jRes.setSuccess(AJaxResVO.SUCCESS_Y);
-					}else{
-						jRes.setResult("NOTHING");
-						jRes.setSuccess(AJaxResVO.SUCCESS_N);
-					}
-				}
-				
-			}else{
-				jRes.setResult("LOGINFAIL");
+			if(request.getParameter("userId") != null && !request.getParameter("userId").isEmpty()){
+				newMemberInfo.setUserId(request.getParameter("userId"));
+			}
+			if(request.getParameter("userPw") != null && !request.getParameter("userPw").isEmpty()){
+				newMemberInfo.setUserPw(request.getParameter("userPw"));
+			}
+			if(request.getParameter("userFirstName") != null && !request.getParameter("userFirstName").isEmpty()){
+				newMemberInfo.setUserFirstName(request.getParameter("userFirstName"));
+			}
+			if(request.getParameter("userLastName") != null && !request.getParameter("userLastName").isEmpty()){
+				newMemberInfo.setUserLastName(request.getParameter("userLastName"));
+			}
+			if(request.getParameter("userGender") != null && !request.getParameter("userGender").isEmpty()){
+				newMemberInfo.setUserGender(request.getParameter("userGender"));
+			}
+			if(request.getParameter("userBirth") != null && !request.getParameter("userBirth").isEmpty()){
+				newMemberInfo.setUserBirth(request.getParameter("userBirth"));
+			}
+			if(request.getParameter("userEmail") != null && !request.getParameter("userEmail").isEmpty()){
+				newMemberInfo.setUserEmail(request.getParameter("userEmail"));
+			}
+			Integer check = memberService.checkUserInfo(newMemberInfo);
+			if(check == null){
+				check = 0;
+			}
+			if(check > 0){
+				jRes.setResult("MemberDuplicate");
 				jRes.setSuccess(AJaxResVO.SUCCESS_N);
+			}else{
+				Integer iRes = memberService.insertUserInfo(newMemberInfo);
+				
+				System.out.println("iRes : " + iRes);
+				
+				if(iRes>0){
+					jRes.setResult("1");
+					jRes.setSuccess(AJaxResVO.SUCCESS_Y);
+				}else{
+					jRes.setResult("NOTHING");
+					jRes.setSuccess(AJaxResVO.SUCCESS_N);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -229,8 +233,8 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/updateMember")
-	public @ResponseBody AJaxResVO updateMember(HttpServletRequest request) {
-		MemberDto memberInfo = SessionManager.getUserInfo(request);
+	public @ResponseBody AJaxResVO updateMember(HttpServletRequest request, HttpSession session) {
+		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		AJaxResVO jRes = new AJaxResVO();
 		
 		MemberDto newMemberInfo = new MemberDto();
@@ -254,6 +258,9 @@ public class MemberController {
 				}
 				if(request.getParameter("userBirth") != null && !request.getParameter("userBirth").isEmpty()){
 					newMemberInfo.setUserBirth(request.getParameter("userBirth"));
+				}
+				if(request.getParameter("userEmail") != null && !request.getParameter("userEmail").isEmpty()){
+					newMemberInfo.setUserEmail(request.getParameter("userEmail"));
 				}
 				
 				Integer iRes = memberService.updateUserInfo(newMemberInfo);
@@ -280,8 +287,8 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/deleteMember")
-	public @ResponseBody AJaxResVO deleteMember(HttpServletRequest request) {
-		MemberDto memberInfo = SessionManager.getUserInfo(request);
+	public @ResponseBody AJaxResVO deleteMember(HttpServletRequest request, HttpSession session) {
+		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		AJaxResVO jRes = new AJaxResVO();
 		
 		MemberDto newMemberInfo = new MemberDto();
