@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.victor.board.common.member.dao.MemberDao">
+	<resultMap type="com.victor.board.common.member.dto.MemberDto" id="MemberResultMap">
+		<result column="USER_ID" 			jdbcType="VARCHAR" property="userId" />
+		<result column="USER_PW" 			jdbcType="VARCHAR" property="userPw" />
+		<result column="USER_FIRST_NAME" 	jdbcType="VARCHAR" property="userFirstName" />
+		<result column="USER_LAST_NAME" 	jdbcType="VARCHAR" property="userLastName" />
+		<result column="USER_GENDER" 		jdbcType="VARCHAR" property="userGender" />
+		<result column="USER_BIRTH" 		jdbcType="VARCHAR" property="userBirth" />
+		<result column="USER_AUTH" 			jdbcType="VARCHAR" property="userAuth" />
+		<result column="USER_REG_DATE" 		jdbcType="VARCHAR" property="userRegDate" />
+	</resultMap>
+
+	<select id="selectUserInfo" parameterType="com.victor.board.common.member.dto.MemberDto" resultMap="MemberResultMap">
+		SELECT *
+		FROM MEMBER
+		<where>
+				 USER_ID = #{userId}
+			 AND USER_PW = #{userPw}
+		</where>
+	</select>
+	
+	<select id="checkUserInfo" parameterType="com.victor.board.common.member.dto.MemberDto" resultMap="MemberResultMap">
+		SELECT  COUNT(*)
+		FROM MEMBER
+		<where>
+				 USER_ID = #{userId}
+		</where>
+	</select>
+
+	<insert id="insertUserInfo" parameterType="com.victor.board.common.member.dto.MemberDto">
+		INSERT INTO MEMBER
+			(
+				USER_ID,
+				USER_PW,
+				USER_FIRST_NAME,
+				USER_LAST_NAME,
+				USER_GENDER,
+				USER_BIRTH,
+				USER_AUTH,
+				USER_REG_DATE
+			)
+		VALUES
+			(
+				#{userId},
+				#{userPw},
+				#{userFirstName},
+				#{userLastName},
+				#{userGender},
+				#{userBirth},
+				1,
+				SYSDATE
+			)
+	</insert>
+	
+	<delete id="deleteUserInfo" parameterType="com.victor.board.common.member.dto.MemberDto">
+
+		DELETE FROM MEMBER
+
+		<where>
+			USER_ID = #{userId}
+		</where>
+
+	</delete>
+	
+	<update id="updateUserInfo" parameterType="com.victor.board.common.member.dto.MemberDto">
+
+		UPDATE MEMBER
+
+		<set>
+			<if test="userPw != null">
+			   	USER_PW = #{userPw},
+			</if>
+			<if test="userFirstName != null">
+		   		USER_FIRST_NAME = #{userFirstName},
+			</if>
+			<if test="userLastName != null">
+		   		USER_LAST_NAME = #{userLastName},
+			</if>
+			<if test="userGender != null">
+			   	USER_GENDER = #{userGender},
+			</if>
+			<if test="userBirth != null">
+			   	USER_BIRTH = #{userBirth},
+			</if>
+			<if test="userAuth != null">
+			   	USER_AUTH = #{userAuth},
+			</if>
+		</set>
+
+		<where>
+			C_USER_ID = #{userId}
+		</where>
+
+	</update>
+	
+</mapper>
