@@ -8,6 +8,7 @@
 <title>로그인 화면</title>
 <%@include file="pathSet.jsp" %>
 <script src="${resourcePath}/js/index.js"></script>
+<link href="${resourcePath}/css/index.css" rel="stylesheet"> 
 <!-- Bootstrap -->
     <link href="${resourcePath}/css/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- font awesome -->
@@ -21,27 +22,6 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-<style type="text/css">
-	body {
-         background-image: url("${resourcePath}/images/food.jpg"); 
-         background-size: cover;
-     }
-    .align-center { 
-    	text-align: center;
-    	width: 250px;
-    	margin: auto;
-    	margin-top: 180px;
-    	background : white;
-    	padding-top: 20px;
-    	padding-bottom: 10px;
-    	border-radius: 20px;
-     }
-     .input-control{
-     	width: 180px;
-     	margin-left: auto;
-     	margin-right: auto;
-     }
-</style>
 </head>
 <body>
 	<form onsubmit="false">

@@ -6,7 +6,8 @@
 <html>
 <head>
 <%@include file="../pathSet.jsp" %>
-<title>회원가입</title>
+<script src="${resourcePath}/js/memberUpdate.js"></script>
+<title>회원수정</title>
 <!-- Bootstrap -->
     <link href="${resourcePath}/css/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- font awesome -->

@@ -6,6 +6,7 @@
 <html>
 <head>
 <%@include file="../pathSet.jsp" %>
+<script src="${resourcePath}/js/memberInsert.js"></script>
 <title>회원가입</title>
 <!-- Bootstrap -->
     <link href="${resourcePath}/css/bootstrap/bootstrap.min.css" rel="stylesheet">

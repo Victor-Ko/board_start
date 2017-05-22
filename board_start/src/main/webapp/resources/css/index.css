@@ -1,3 +1,19 @@
 body {
-	background-image: url("../images/food.jpg");	
+	background-image: url("${resourcePath}/images/food.jpg"); 
+	background-size: cover;
 }
+.align-center { 
+	text-align: center;
+	width: 250px;
+	margin: auto;
+	margin-top: 180px;
+	background : white;
+	padding-top: 20px;
+	padding-bottom: 10px;
+	border-radius: 20px;
+ }
+ .input-control{
+ 	width: 180px;
+ 	margin-left: auto;
+ 	margin-right: auto;
+ }

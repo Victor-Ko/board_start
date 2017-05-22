@@ -27,6 +27,25 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	@RequestMapping(value ="/boardMain")
+	public ModelAndView boardMain(HttpServletRequest request, Locale locale, Model model){
+		MemberDto memberInfo = SessionManager.getUserInfo(request);
+		
+		if (memberInfo != null) {
+			request.setAttribute("userInfo", memberInfo);
+			
+			ModelAndView result = new ModelAndView();
+			result.setViewName("/boardMain");
+
+			return result;
+		}else{
+			RedirectView rv = new RedirectView(request.getContextPath() + "/");
+			rv.setExposeModelAttributes(false);
+
+			return new ModelAndView(rv);
+		}
+	}
+	
 	@RequestMapping(value = "/boardInsert")
 	public ModelAndView boardInsert(HttpServletRequest request, Locale locale, Model model){
 		MemberDto memberInfo = SessionManager.getUserInfo(request);
