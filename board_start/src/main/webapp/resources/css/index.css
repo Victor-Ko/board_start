@@ -5,12 +5,15 @@ body {
 .align-center { 
 	text-align: center;
 	width: 250px;
-	margin: auto;
-	margin-top: 180px;
-	background : white;
-	padding-top: 20px;
-	padding-bottom: 10px;
 	border-radius: 20px;
+	position: absolute;
+	top: 35%;
+	left: 45%;
+	/* background : white; */
+	/* margin: auto;
+	margin-top: 180px;
+	padding-top: 20px;
+	padding-bottom: 10px; */
  }
  .input-control{
  	width: 180px;
