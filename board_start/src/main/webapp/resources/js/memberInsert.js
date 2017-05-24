@@ -20,7 +20,7 @@ function join_check(){
 		alert("이메일 입력하세요");
 	}else if($("#userPw").val() != $("#pwCheck").val()){
 		alert("비밀번호가 일치하지않습니다");
-	}else if($("#userBirth").val().length){
+	}else if($("#userBirth").val().length > 8){
 		alert("생일이 너무 깁니다");
 	}
 	else{
