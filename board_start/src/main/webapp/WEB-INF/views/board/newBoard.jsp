@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>새글 쓰기</title>
 <%@include file="../pathSet.jsp" %>
-<script src="${resourcePath}/js/boardMain.js"></script>
+<script src="${resourcePath}/js/newBoard.js"></script>
 <!-- Bootstrap -->
     <link href="${resourcePath}/css/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- font awesome -->
@@ -25,6 +25,33 @@
     <![endif]-->
 </head>
 <body>
-
+	<article class="container">
+        <div class="page-header">
+          <h1>게시글 작성<small>Write Board</small></h1>
+        </div>
+        <div class="col-md-6 col-md-offset-3">
+            <div class="form-group">
+              	<label for="boardTitle">글 제목</label>
+              	<input type="text" class="form-control" id="boardTitle" placeholder="글 제목">
+            </div>
+         
+            <div class="form-group">
+              	<label for="boardContents">글 내용</label>
+              	<input type="password" class="form-control" id="boardContents" placeholder="글 내용" style="height: 150px;">
+            </div>
+           
+            <div class="form-group">
+		    	<label for="file">파일 첨부</label>
+		    	<input type="file" id="file">
+		    	<!-- <p class="help-block">Example block-level help text here.</p> -->
+		  	</div>
+           
+            <div class="form-group text-center">
+              <input type="button" id = "boardInsert" class="btn btn-info" value="글 작성">
+              <input type="button" id = "cancel" class="btn btn-warning" value="작성 취소">
+            </div>
+        </div>
+      </article>
+      <input type="hidden" id="userId" value="${memberInfo.getUserId()}">
 </body>
 </html>

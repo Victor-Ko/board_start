@@ -82,11 +82,8 @@ function login_proc(){
 				var mainPath = jRes.resData.mainPath;
 				// 메인 페이지 이동
 				location.href = contextPath+mainPath;
-			} else if(jRes.success == "N" && jRes.result == "2") {
-				alert("비밀번호를 다시입력하세요");
-				$("#userPw").val("");
-			} else {
-				alert("계정이 존재하지 않습니다");
+			}else {
+				alert("로그인실패");
 				$("#userPw").val("");
 			}
 		}

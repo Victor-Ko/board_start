@@ -36,7 +36,14 @@ function modify_proc(){
 		dataType : "json",
 		success:function(jRes){
 			if(jRes.success == "Y" && jRes.result == "Success") {
+				alert("수정되었습니다 재 로그인해주십시오");
 				window.close();
+				$.ajax({
+					url : contextPath+"/logout",
+					success:function(jRes){
+						location.href = contextPath+"/";
+					}
+				});	
 			}else {
 				alert("수정 실패");
 				window.close();

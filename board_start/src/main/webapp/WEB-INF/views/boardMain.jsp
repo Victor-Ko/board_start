@@ -34,9 +34,18 @@
 		float: right; 
 		margin-right: 100px;
 	}
+	#mask {  
+	  position:absolute;  
+	  z-index:9999;  
+	  background-color:#000;  
+	  display:none;  
+	  left:0;
+	  top:0;
+	}
 </style>
 </head>
 <body>
+	<div id="mask"></div>
 	<div class="row" style="background: skyblue; text-align: center;">
 	 	<div class="col-sm-5" style="border-right: solid 1px; margin-top: 5px">게시판</div>
 	 	<div class="col-sm-4" style="border-right: solid 1px; margin-top: 5px">${memberInfo.getUserLastName()}${memberInfo.getUserFirstName()}님 환영합니다</div>

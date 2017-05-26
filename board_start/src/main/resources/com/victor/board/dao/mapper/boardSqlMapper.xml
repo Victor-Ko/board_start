@@ -29,14 +29,17 @@
 	</select>
 	
 	<select id="selectBoardDetail" parameterType="com.victor.board.common.board.dto.BoardDto" resultMap="BoardResultMap">
-		<!-- SELECT b.board_seq,b.user_id,board_title,board_views,board_reg_date,board_contents,
+		SELECT b.board_seq,b.user_id,board_title,board_views,board_reg_date,board_contents,
 				com_seq,com_detail,com_regi_date,
 				file_seq,file_name,file_ext,file_size
 		FROM BOARD B
 		JOIN COMMENT C 
-		ON B.USER_ID = C.USER_ID
+		ON B.BOARD_SEQ = C.BOARD_SEQ
 		JOIN BOARD_FILE_INFO F
-		ON B.USER_ID = F.USER_ID -->
+		ON B.BOARD_SEQ = F.BOARD_SEQ
+		<where>
+			B.BOARD_SEQ = #{boardSeq}
+		</where>
 	</select>
 	
 	<insert id="insertBoard" parameterType="com.victor.board.common.board.dto.BoardDto">
@@ -52,7 +55,7 @@
 			(
 				#{userId},
 				#{boardTitle},
-				#{boardViews},
+				0,
 				#{boardContents},
 				DATE(NOW())
 			)

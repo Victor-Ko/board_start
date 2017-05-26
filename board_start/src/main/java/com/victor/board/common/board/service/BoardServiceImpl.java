@@ -11,7 +11,7 @@ import com.victor.board.common.board.dto.FileDto;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService{
-
+	
 	@Autowired
 	BoardDao boardDaoMapper;
 	

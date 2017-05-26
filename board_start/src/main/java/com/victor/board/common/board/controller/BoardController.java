@@ -109,13 +109,9 @@ public class BoardController {
 		try {
 			if(memberInfo != null){
 				String userId = memberInfo.getUserId();
-				
 				boardDto.setUserId(userId);
 				if(request.getParameter("boardTitle") != null && !request.getParameter("boardTitle").equals("")){
 					boardDto.setBoardTitle(request.getParameter("boardTitle"));
-				}
-				if(request.getParameter("boardViews") != null && !request.getParameter("boardTitle").equals("")){
-					boardDto.setBoardViews(Integer.parseInt(request.getParameter("boardViews")));
 				}
 				if(request.getParameter("boardContents") != null && !request.getParameter("boardTitle").equals("")){
 					boardDto.setBoardContents(request.getParameter("boardContents"));
@@ -130,7 +126,6 @@ public class BoardController {
 					jRes.setResult("NOTHING");
 					jRes.setSuccess(AJaxResVO.SUCCESS_N);
 				}
-				
 			}else{
 				jRes.setResult("LOGINFAIL");
 				jRes.setSuccess(AJaxResVO.SUCCESS_N);
@@ -145,7 +140,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/deleteBoard")
-	public @ResponseBody AJaxResVO selectBoard(HttpServletRequest request, HttpSession session) {
+	public @ResponseBody AJaxResVO deleteBoard(HttpServletRequest request, HttpSession session) {
 		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		AJaxResVO jRes = new AJaxResVO();
 		
@@ -169,6 +164,46 @@ public class BoardController {
 					jRes.setResult("NOTHING");
 					jRes.setSuccess(AJaxResVO.SUCCESS_N);
 				}
+			}else{
+				jRes.setResult("LOGINFAIL");
+				jRes.setSuccess(AJaxResVO.SUCCESS_N);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			jRes.setResult("ERROR");
+			jRes.setSuccess(AJaxResVO.SUCCESS_N);
+		}
+		return jRes;
+	}
+	
+	@RequestMapping(value="/insertComment")
+	public @ResponseBody AJaxResVO insertComment(HttpServletRequest request, HttpSession session) {
+		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
+		AJaxResVO jRes = new AJaxResVO();
+		
+		BoardDto boardDto = new BoardDto();
+		
+		try {
+			if(memberInfo != null){
+				String userId = memberInfo.getUserId();
+				boardDto.setUserId(userId);
+				if(request.getParameter("boardSeq") != null && !request.getParameter("boardSeq").isEmpty()){
+					boardDto.setBoardSeq(Integer.parseInt(request.getParameter("boardSeq")));
+				}
+				if(request.getParameter("comDetail") != null && !request.getParameter("comDetail").equals("")){
+					boardDto.setComDetail(request.getParameter("comDetail"));
+				}
+				
+				Integer iRes = boardService.insertComment(boardDto);
+				
+				if(iRes>0){
+					jRes.setResult(request.getParameter("Success"));
+					jRes.setSuccess(AJaxResVO.SUCCESS_Y);
+				}else{
+					jRes.setResult("NOTHING");
+					jRes.setSuccess(AJaxResVO.SUCCESS_N);
+				}
+				
 			}else{
 				jRes.setResult("LOGINFAIL");
 				jRes.setSuccess(AJaxResVO.SUCCESS_N);
