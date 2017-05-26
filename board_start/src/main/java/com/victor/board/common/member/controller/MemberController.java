@@ -81,13 +81,13 @@ public class MemberController {
 
 	}
 	
-	/* 세션 유지 */
+	/* �꽭�뀡 �쑀吏� */
 	@RequestMapping(value = "/sessionExtension.do")
 	public @ResponseBody AJaxResVO sessionExtension(HttpServletRequest request, Locale locale, HttpSession session){
 		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		AJaxResVO jRes = new AJaxResVO();
 
-		// 세션에 담긴 내용이 없으면
+		// �꽭�뀡�뿉 �떞湲� �궡�슜�씠 �뾾�쑝硫�
 		if(memberInfo == null) {
 
 		} else {
@@ -98,7 +98,7 @@ public class MemberController {
 			memberInfo.setUserEmail(memberInfo.getUserEmail());
 			memberInfo.setUserAuth(memberInfo.getUserAuth());
 
-			SessionManager.setAttribute(request, "SES_KEY_USER_INFO", memberInfo);
+			request.setAttribute("userInfo", memberInfo);
 		}
 
 		return jRes;
@@ -148,7 +148,7 @@ public class MemberController {
 			MemberDto memberInfo = memberService.selectUserInfo(memberDto);
 			
 			if(memberInfo == null){
-				// 계정 데이터가 없으면
+				// 怨꾩젙 �뜲�씠�꽣媛� �뾾�쑝硫�
 				jRes.setResult("0");
 				jRes.setSuccess(AJaxResVO.SUCCESS_N);
 			}else{
@@ -213,8 +213,6 @@ public class MemberController {
 			}else{
 				Integer iRes = memberService.insertUserInfo(newMemberInfo);
 				
-				System.out.println("iRes : " + iRes);
-				
 				if(iRes>0){
 					jRes.setResult("1");
 					jRes.setSuccess(AJaxResVO.SUCCESS_Y);
@@ -247,17 +245,8 @@ public class MemberController {
 				if(request.getParameter("userPw") != null && !request.getParameter("userPw").isEmpty()){
 					newMemberInfo.setUserPw(request.getParameter("userPw"));
 				}
-				if(request.getParameter("userFirstName") != null && !request.getParameter("userFirstName").isEmpty()){
-					newMemberInfo.setUserFirstName(request.getParameter("userFirstName"));
-				}
-				if(request.getParameter("userLastName") != null && !request.getParameter("userLastName").isEmpty()){
-					newMemberInfo.setUserLastName(request.getParameter("userLastName"));
-				}
-				if(request.getParameter("userGender") != null && !request.getParameter("userGender").isEmpty()){
-					newMemberInfo.setUserGender(request.getParameter("userGender"));
-				}
-				if(request.getParameter("userBirth") != null && !request.getParameter("userBirth").isEmpty()){
-					newMemberInfo.setUserBirth(request.getParameter("userBirth"));
+				if(request.getParameter("userAuth") != null && !request.getParameter("userAuth").isEmpty()){
+					newMemberInfo.setUserAuth(request.getParameter("userAuth"));
 				}
 				if(request.getParameter("userEmail") != null && !request.getParameter("userEmail").isEmpty()){
 					newMemberInfo.setUserEmail(request.getParameter("userEmail"));
@@ -266,7 +255,7 @@ public class MemberController {
 				Integer iRes = memberService.updateUserInfo(newMemberInfo);
 					
 				if(iRes>0){
-					jRes.setResult(request.getParameter("cReceptNum"));
+					jRes.setResult("Success");
 					jRes.setSuccess(AJaxResVO.SUCCESS_Y);
 				}else{
 					jRes.setResult("NOTHING");
@@ -302,7 +291,7 @@ public class MemberController {
 				Integer iRes = memberService.deleteUserInfo(newMemberInfo);
 				
 				if(iRes>0){
-					jRes.setResult(request.getParameter("cReceptNum"));
+					jRes.setResult("Success");
 					jRes.setSuccess(AJaxResVO.SUCCESS_Y);
 				}else{
 					jRes.setResult("NOTHING");

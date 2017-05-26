@@ -1,5 +1,6 @@
 package com.victor.board.common.board.dao;
 
+
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -38,7 +39,7 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public BoardDto selectBoard(BoardDto boardDto) {
+	public List<BoardDto> selectBoard(BoardDto boardDto) {
 		BoardDao boardDaoMapper = (BoardDao)sqlSession.getMapper(BoardDao.class);
 		return boardDaoMapper.selectBoard(boardDto);
 	}
@@ -71,6 +72,24 @@ public class BoardDaoImpl implements BoardDao{
 	public Integer downloadFile(FileDto fileDto) {
 		BoardDao boardDaoMapper = (BoardDao)sqlSession.getMapper(BoardDao.class);
 		return boardDaoMapper.downloadFile(fileDto);
+	}
+
+	@Override
+	public List<BoardDto> selectBoardDetail(BoardDto boardDto) {
+		BoardDao boardDaoMapper = (BoardDao)sqlSession.getMapper(BoardDao.class);
+		return boardDaoMapper.selectBoardDetail(boardDto);
+	}
+
+	@Override
+	public Integer updateViews(BoardDto boardDto) {
+		BoardDao boardDaoMapper = (BoardDao)sqlSession.getMapper(BoardDao.class);
+		return boardDaoMapper.updateViews(boardDto);
+	}
+
+	@Override
+	public List<FileDto> selectFile(FileDto fileDto) {
+		BoardDao boardDaoMapper = (BoardDao)sqlSession.getMapper(BoardDao.class);
+		return boardDaoMapper.selectFile(fileDto);
 	}
 
 }

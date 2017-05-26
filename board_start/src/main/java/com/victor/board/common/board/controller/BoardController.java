@@ -1,5 +1,6 @@
 package com.victor.board.common.board.controller;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,6 @@ import com.victor.board.common.board.dto.BoardDto;
 import com.victor.board.common.board.service.BoardService;
 import com.victor.board.common.member.dto.MemberDto;
 import com.victor.board.common.util.AJaxResVO;
-import com.victor.board.common.util.SessionManager;
 
 @Controller
 public class BoardController {
@@ -32,10 +32,15 @@ public class BoardController {
 	public ModelAndView boardMain(HttpServletRequest request, Locale locale, Model model, HttpSession session){
 		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		
+		BoardDto boardDto = new BoardDto();
+		
 		if (memberInfo != null) {
 			request.setAttribute("memberInfo", memberInfo);
 			
+			List<BoardDto> board = boardService.selectBoard(boardDto);
+			
 			ModelAndView result = new ModelAndView();
+			result.addObject("board", board);
 			result.setViewName("/boardMain");
 
 			return result;
@@ -70,12 +75,21 @@ public class BoardController {
 	public ModelAndView boardSelect(HttpServletRequest request, Locale locale, Model model, HttpSession session){
 		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		
+		BoardDto boardDto = new BoardDto();
+		
 		if (memberInfo != null) {
 			request.setAttribute("userInfo", memberInfo);
 			
+			if(request.getParameter("boardSeq") != null && !request.getParameter("boardSeq").isEmpty()){
+				boardDto.setBoardSeq(Integer.parseInt(request.getParameter("boardSeq")));
+			}
+			List<BoardDto> board = boardService.selectBoardDetail(boardDto);
+			boardService.updateViews(boardDto);
+			
 			ModelAndView result = new ModelAndView();
+			result.addObject("board", board);
 			result.setViewName("/board/readBoard");
-
+			
 			return result;
 		}else{
 			RedirectView rv = new RedirectView(request.getContextPath() + "/");
@@ -130,7 +144,7 @@ public class BoardController {
 		return jRes;
 	}
 	
-	@RequestMapping(value = "/selectBoard")
+	@RequestMapping(value = "/deleteBoard")
 	public @ResponseBody AJaxResVO selectBoard(HttpServletRequest request, HttpSession session) {
 		MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
 		AJaxResVO jRes = new AJaxResVO();
@@ -139,8 +153,22 @@ public class BoardController {
 		
 		try {
 			if(memberInfo != null){
-				BoardDto boardInfo = boardService.selectBoard(boardDto);
+				if(request.getParameter("boardSeq") != null && !request.getParameter("boardSeq").isEmpty()){
+					boardDto.setBoardSeq(Integer.parseInt(request.getParameter("boardSeq")));
+				}
+				if(request.getParameter("userId") != null && !request.getParameter("userId").isEmpty()){
+					boardDto.setUserId(request.getParameter("userId"));
+				}
 				
+				Integer iRes = boardService.deleteBoard(boardDto);
+				
+				if(iRes>0){
+					jRes.setResult("Success");
+					jRes.setSuccess(AJaxResVO.SUCCESS_Y);
+				}else{
+					jRes.setResult("NOTHING");
+					jRes.setSuccess(AJaxResVO.SUCCESS_N);
+				}
 			}else{
 				jRes.setResult("LOGINFAIL");
 				jRes.setSuccess(AJaxResVO.SUCCESS_N);

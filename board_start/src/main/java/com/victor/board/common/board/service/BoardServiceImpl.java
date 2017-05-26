@@ -31,7 +31,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public BoardDto selectBoard(BoardDto boardDto) {
+	public List<BoardDto> selectBoard(BoardDto boardDto) {
 		return boardDaoMapper.selectBoard(boardDto);
 	}
 
@@ -58,6 +58,21 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public Integer downloadFile(FileDto fileDto) {
 		return boardDaoMapper.downloadFile(fileDto);
+	}
+
+	@Override
+	public List<BoardDto> selectBoardDetail(BoardDto boardDto) {
+		return boardDaoMapper.selectBoardDetail(boardDto);
+	}
+
+	@Override
+	public Integer updateViews(BoardDto boardDto) {
+		return boardDaoMapper.updateViews(boardDto);
+	}
+
+	@Override
+	public List<FileDto> selectFile(FileDto fileDto) {
+		return boardDaoMapper.selectFile(fileDto);
 	}
 
 }

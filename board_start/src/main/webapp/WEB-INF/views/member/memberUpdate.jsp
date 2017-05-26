@@ -25,12 +25,12 @@
  <body>
       <article class="container">
         <div class="page-header">
-          <h1>회원가입 <small>Sign up</small></h1>
+          <h1>회원수정 <small>Modify</small></h1>
         </div>
         <div class="col-md-6 col-md-offset-3">
             <div class="form-group">
               <label for="userId">아이디</label>
-              <input type="text" class="form-control" id="userId" value="John" readonly="readonly">
+              <input type="text" class="form-control" id="userId" value="${memberInfo.getUserId()}" readonly="readonly">
             </div>
          
             <div class="form-group">
@@ -46,35 +46,33 @@
             
             <div class="form-group">
               <label for="userName">이름</label>
-              <input type="text" class="form-control" id="userName" value="John" readonly="readonly">
+              <input type="text" class="form-control" id="userName" value="${memberInfo.getUserLastName()}${memberInfo.getUserFirstName()}" readonly="readonly">
             </div>
             
             <div class="form-group">
             	<label for="gender">성별</label>
-            	<input id="gender" type="radio" name="man" value="man" style="margin-left: 30px;" checked="checked">남
-        		<input id="gender" type="radio" name="woman" value="woman" style="margin-left: 30px;">여
+            	<input id="gender" type="radio" name="gender" value="man" style="margin-left: 30px;" checked="checked">남
+        		<input id="gender" type="radio" name="gender" value="woman" style="margin-left: 30px;">여
             </div>
                      
          	<div class="form-group">
               <label for="birth">생년월일</label>
-              <input type="text" class="form-control" id="birth" value="John" readonly="readonly">
+              <input type="text" class="form-control" id="UserBirth" value="${memberInfo.getUserBirth()}" readonly="readonly">
             </div>
 
             <div class="form-group">
               <label for="Email">이메일 주소</label>
-              <input type="text" class="form-control" id="Email" placeholder="이메일 주소를 입력해 주세요">
+              <input type="text" class="form-control" id="userEmail" placeholder="이메일 주소를 입력해 주세요">
             </div>
          
             <div class="form-group text-center">
-              <input type="button" class="btn btn-info" value="회원수정">
-              <input type="button" class="btn btn-warning" value="수정취소">
+              <input type="button" id="modify" class="btn btn-info" value="회원수정">
+              <input type="button" id="cancel" class="btn btn-warning" value="수정취소">
             </div>
         </div>
       </article>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+      
+      <input type="hidden" id="userId" value="${memberInfo.getUserId()}">
+      <input type="hidden" id="userAuth" value="${memberInfo.getUserAuth()}">
   </body>
 </html>

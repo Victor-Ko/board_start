@@ -4,5 +4,137 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.victor.board.common.board.dao.BoardDao">
+	<resultMap type="com.victor.board.common.board.dto.BoardDto" id="BoardResultMap">
+		<result column="BOARD_SEQ" 		jdbcType="INTEGER" property="boardSeq"/>
+		<result column="USER_ID" 		jdbcType="VARCHAR" property="userId"/>
+		<result column="BOARD_TITLE" 	jdbcType="VARCHAR" property="boardTitle"/>
+		<result column="BOARD_VIEWS" 	jdbcType="INTEGER" property="boardViews"/>
+		<result column="BOARD_CONTENTS" jdbcType="VARCHAR" property="boardContents"/>
+		<result column="BOARD_REG_DATE" jdbcType="VARCHAR" property="boardRegDate"/>
+		
+		<result column="COM_DETAIL"		jdbcType="VARCHAR" property="comDetail"/>
+		<result column="COM_REGI_DATE"	jdbcType="VARCHAR" property="comRegDate"/>
+	</resultMap>
+	
+	<resultMap type="com.victor.board.common.board.dto.FileDto" id="FileResultMap">
+		<result column="FILE_NAME" 	jdbcType="VARCHAR" property="fileName"/>
+		<result column="FILE_EXT" 	jdbcType="INTEGER" property="fileExt"/>
+		<result column="FILE_SIZE" 	jdbcType="VARCHAR" property="fileSize"/>
+	</resultMap>
 
+	<select id="selectBoard" parameterType="com.victor.board.common.board.dto.BoardDto" resultMap="BoardResultMap">
+		SELECT * 
+		FROM BOARD
+		ORDER BY BOARD_SEQ DESC
+	</select>
+	
+	<select id="selectBoardDetail" parameterType="com.victor.board.common.board.dto.BoardDto" resultMap="BoardResultMap">
+		<!-- SELECT b.board_seq,b.user_id,board_title,board_views,board_reg_date,board_contents,
+				com_seq,com_detail,com_regi_date,
+				file_seq,file_name,file_ext,file_size
+		FROM BOARD B
+		JOIN COMMENT C 
+		ON B.USER_ID = C.USER_ID
+		JOIN BOARD_FILE_INFO F
+		ON B.USER_ID = F.USER_ID -->
+	</select>
+	
+	<insert id="insertBoard" parameterType="com.victor.board.common.board.dto.BoardDto">
+		INSERT INTO BOARD
+			(
+				USER_ID,
+				BOARD_TITLE,
+				BOARD_VIEWS,
+				BOARD_CONTENTS,
+				BOARD_REG_DATE
+			)
+		VALUES
+			(
+				#{userId},
+				#{boardTitle},
+				#{boardViews},
+				#{boardContents},
+				DATE(NOW())
+			)
+	</insert>
+	
+	<update id="updateBoard" parameterType="com.victor.board.common.board.dto.BoardDto">
+		UPDATE BOARD
+		
+		<set>
+			<if test="boardTitle != null">
+				BOARD_TITLE = #{boardTitle},
+			</if>
+			<if test="boardContents != null">
+				BOARD_CONTENTS = #{boardContents},
+			</if>
+		</set>
+		
+		<where>
+			BOARD_SEQ = #{boardSeq},
+			USER_ID = #{userId}
+		</where>
+	</update>
+	
+	<update id="updateViews" parameterType="com.victor.board.common.board.dto.BoardDto">
+			UPDATE BOARD
+			<set>
+				BOARD_VIEWS = BOARD_VIEWS + 1
+			</set>
+			<where>
+				BOARD_SEQ = #{boardSeq}
+			</where>
+	</update>
+	
+	<delete id="deleteBoard" parameterType="com.victor.board.common.board.dto.BoardDto">
+		DELETE FROM BOARD
+		
+		<where>
+			BOARD_SEQ = #{boardSeq},
+			USER_ID = #{userId}
+		</where>
+	</delete>
+	
+	<insert id="insertComment" parameterType="com.victor.board.common.board.dto.BoardDto">
+		INSERT INTO COMMENT
+			(
+				BOARD_SEQ,
+				USER_ID,
+				COM_DETAIL,
+				COM_REGI_DATE
+			)
+		VALUES
+			(
+				#{boardSeq},
+				#{userId},
+				#{comDetail},
+				DATE(NOW())
+			)
+	</insert>
+	
+	<update id="updateComment" parameterType="com.victor.board.common.board.dto.BoardDto">
+		UPDATE COMMENT
+		
+		<set>
+			<if test="comDetail != null">
+				COM_DETAIL = #{comDetail},
+			</if>
+		</set>
+		
+		<where>
+			BOARD_SEQ = #{boardSeq},
+			USER_ID = #{userId}
+		</where>
+	</update>
+	
+	<delete id="deleteComment">
+		DELETE FROM COMMENT
+		
+		<where>
+			BOARD_SEQ = #{boardSeq},
+			USER_ID = #{userId}
+		</where>
+	</delete>
+	
+	<!-- uploadFile  downloadFile -->
 </mapper>
