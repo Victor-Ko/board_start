@@ -29,14 +29,8 @@
 	</select>
 	
 	<select id="selectBoardDetail" parameterType="com.victor.board.common.board.dto.BoardDto" resultMap="BoardResultMap">
-		SELECT b.board_seq,b.user_id,board_title,board_views,board_reg_date,board_contents,
-				com_seq,com_detail,com_regi_date,
-				file_seq,file_name,file_ext,file_size
+		SELECT *
 		FROM BOARD B
-		JOIN COMMENT C 
-		ON B.BOARD_SEQ = C.BOARD_SEQ
-		JOIN BOARD_FILE_INFO F
-		ON B.BOARD_SEQ = F.BOARD_SEQ
 		<where>
 			B.BOARD_SEQ = #{boardSeq}
 		</where>
@@ -97,6 +91,12 @@
 			USER_ID = #{userId}
 		</where>
 	</delete>
+	
+	<select id="selectComment" parameterType="com.victor.board.common.board.dto.BoardDto" resultMap="BoardResultMap">
+		SELECT *
+		FROM COMMENT
+		WHERE BOARD_SEQ = #{boardSeq}
+	</select>
 	
 	<insert id="insertComment" parameterType="com.victor.board.common.board.dto.BoardDto">
 		INSERT INTO COMMENT

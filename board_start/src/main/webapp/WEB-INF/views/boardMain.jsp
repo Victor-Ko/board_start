@@ -70,8 +70,7 @@
 	                <c:forEach items="${board}" var="board">
 						<tr>
 							<td>${board.boardSeq}</td>
-							<td>
-								<a href="#this" id="read"> ${board.boardTitle}</a>
+							<td><a href="#" id="read">${board.boardTitle}</a> 
 								<input type="hidden" id="seq" value="${board.boardSeq}">
 							</td>
 							<td>${board.userId}</td>

@@ -92,4 +92,10 @@ public class BoardDaoImpl implements BoardDao{
 		return boardDaoMapper.selectFile(fileDto);
 	}
 
+	@Override
+	public List<BoardDto> selectComment(BoardDto boardDto) {
+		BoardDao boardDaoMapper = (BoardDao)sqlSession.getMapper(BoardDao.class);
+		return boardDaoMapper.selectComment(boardDto);
+	}
+
 }

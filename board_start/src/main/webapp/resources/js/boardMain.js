@@ -36,13 +36,9 @@ function logout(){
 }
 function readBoard() {
 	var boardSeq = $("#seq").val();
+	var url = contextPath+"/boardSelect?boardSeq="+boardSeq;
 	
-	$.ajax({
-		url : contextPath+"/boardSelect",
-		data : boardSeq,
-		type : "POST",
-		dataType : "json"
-	});
+	location.href = url;
 }
 function wrapWindowByMask(){
 	//화면의 높이와 너비를 구한다.

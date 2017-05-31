@@ -79,15 +79,17 @@ public class BoardController {
 		
 		if (memberInfo != null) {
 			request.setAttribute("userInfo", memberInfo);
-			
+
 			if(request.getParameter("boardSeq") != null && !request.getParameter("boardSeq").isEmpty()){
 				boardDto.setBoardSeq(Integer.parseInt(request.getParameter("boardSeq")));
 			}
 			List<BoardDto> board = boardService.selectBoardDetail(boardDto);
+			List<BoardDto> comment = boardService.selectComment(boardDto);
 			boardService.updateViews(boardDto);
 			
 			ModelAndView result = new ModelAndView();
 			result.addObject("board", board);
+			result.addObject("comment", comment);
 			result.setViewName("/board/readBoard");
 			
 			return result;
@@ -120,7 +122,7 @@ public class BoardController {
 				Integer iRes = boardService.insertBoard(boardDto);
 				
 				if(iRes>0){
-					jRes.setResult(request.getParameter("cReceptNum"));
+					jRes.setResult(request.getParameter("Success"));
 					jRes.setSuccess(AJaxResVO.SUCCESS_Y);
 				}else{
 					jRes.setResult("NOTHING");
@@ -197,7 +199,7 @@ public class BoardController {
 				Integer iRes = boardService.insertComment(boardDto);
 				
 				if(iRes>0){
-					jRes.setResult(request.getParameter("Success"));
+					jRes.setResult("1");
 					jRes.setSuccess(AJaxResVO.SUCCESS_Y);
 				}else{
 					jRes.setResult("NOTHING");

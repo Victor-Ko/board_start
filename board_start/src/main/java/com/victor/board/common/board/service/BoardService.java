@@ -25,6 +25,9 @@ public interface BoardService {
 	//조회수 증가
 	Integer updateViews(BoardDto boardDto);
 	
+	//코멘트 검색
+	List<BoardDto> selectComment(BoardDto boardDto);
+		
 	//코멘트 추가
 	Integer insertComment(BoardDto boardDto);
 	

@@ -37,7 +37,7 @@
          
             <div class="form-group">
               	<label for="boardContents">글 내용</label>
-              	<input type="password" class="form-control" id="boardContents" placeholder="글 내용" style="height: 150px;">
+              	<input type="text" class="form-control" id="boardContents" placeholder="글 내용" style="height: 150px;">
             </div>
            
             <div class="form-group">

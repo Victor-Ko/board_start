@@ -75,4 +75,9 @@ public class BoardServiceImpl implements BoardService{
 		return boardDaoMapper.selectFile(fileDto);
 	}
 
+	@Override
+	public List<BoardDto> selectComment(BoardDto boardDto) {
+		return boardDaoMapper.selectComment(boardDto);
+	}
+
 }
